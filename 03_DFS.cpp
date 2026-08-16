@@ -1,6 +1,5 @@
 #include<iostream>
 #include<vector>
-#include<queue>
 using namespace std;
 
 // Undirected unweighted graph
@@ -16,25 +15,27 @@ public:
         l[v].push_back(u);
     }
 
-    // BFS Traversal
-    void bfs() {    // O(V + E)
-        queue<int> Q;
+    // DFS Traversal
+    void dfsHelper(int u, vector<bool>& vis) {  // O(V + E)
+        cout << u << " ";
+        vis[u] = true;
+
+        for(int v : l[u]) {
+            if(!vis[v]) {
+                dfsHelper(v, vis);
+            }
+        }
+    }
+
+    void dfs() {
+        int src = 0;
         vector<bool> vis(V, false);
 
-        Q.push(0);
-        vis[0] = true;
-
-        while(!Q.empty()) {
-            int u = Q.front();  // u -> v
-            Q.pop();
-
-            cout << u << " ";
-
-            for(int v : l[u]) { // Immediate Neighbor
-                if(!vis[v]) {
-                    vis[v] = true;
-                    Q.push(v);
-                }
+        // If the graph is disconnected
+        // It has multiple connected components
+        for(int i = 0; i < V; i++) {
+            if(!vis[i]) {
+                dfsHelper(src, vis);
             }
         }
     }
@@ -53,7 +54,7 @@ int main() {
     g.addEdge(4, 5);
     g.addEdge(5, 6);
 
-    g.bfs();    // 0 1 2 3 5 4 6
+    g.dfs();    // 0 1 2 5 3 4 6
 
     return 0;
 }
