@@ -67,3 +67,17 @@ vcpkg_installed/
 # test output & cache
 Testing/
 .cache/
+
+
+# Ignore extensionless files (compiled Linux binaries),
+# but keep tracking known source/text files
+*
+!*/
+!*.cpp
+!*.h
+!*.hpp
+!*.c
+!*.cc
+!*.md
+!.gitignore
+!CMakeLists.txt
